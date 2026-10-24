@@ -36,6 +36,17 @@ The selected eight features are:
 ## Evaluation
 The notebook uses chronological splits and expanding-window walk-forward evaluation. ROC-AUC and Average Precision are reported by evaluation quarter.
 
+### Walk-Forward Evaluation Results
+
+#### ROC-AUC by Quarter
+
+![Walk-forward ROC-AUC by quarter](walk_forward_auc.png)
+
+#### Average Precision by Quarter
+
+![Walk-forward Average Precision by quarter](walk_forward_average_precision.png)
+
+
 ### Walk-Forward Summary
 
 | Model | Mean ROC-AUC | Mean Average Precision |
