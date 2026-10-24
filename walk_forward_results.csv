@@ -1,0 +1,16 @@
+Evaluation Quarter,Model,Test Observations,High-Volatility Days,ROC-AUC,Average Precision
+2025Q2,Logistic Regression,40,4,0.868,0.328
+2025Q2,Random Forest,40,4,0.799,0.279
+2025Q2,XGBoost,40,4,0.757,0.264
+2026Q1,Logistic Regression,59,27,0.865,0.894
+2026Q1,Random Forest,59,27,0.874,0.906
+2026Q1,XGBoost,59,27,0.865,0.901
+2026Q2,Logistic Regression,60,8,0.719,0.486
+2026Q2,Random Forest,60,8,0.755,0.552
+2026Q2,XGBoost,60,8,0.772,0.571
+2026Q3,Logistic Regression,65,2,0.19,0.028
+2026Q3,Random Forest,65,2,0.802,0.104
+2026Q3,XGBoost,65,2,0.659,0.067
+2026Q4,Logistic Regression,10,7,0.429,0.685
+2026Q4,Random Forest,10,7,0.429,0.685
+2026Q4,XGBoost,10,7,0.81,0.909
