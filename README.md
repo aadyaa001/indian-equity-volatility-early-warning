@@ -1,78 +1,72 @@
 # Indian Equity Volatility Early-Warning Model
 
 ## Overview
-This project investigates whether historical market data can help identify periods of elevated volatility in India's NIFTY 50 index over the next five trading sessions.
 
-It compares three machine-learning approaches with a chronological walk-forward evaluation framework.
+This project investigates whether machine learning models can identify periods of elevated volatility in the Indian equity market using historical NIFTY 50 market data.
+
+The objective is to evaluate whether information from recent returns, volatility, intraday price ranges, and trading volume can help flag elevated volatility over the following five trading sessions.
 
 ## Research Question
-Can historical returns, rolling volatility, intraday price ranges, and volume-related indicators help rank upcoming high-volatility periods?
 
-## Data
-- **Market:** NIFTY 50 index (`^NSEI`)
-- **Source:** Yahoo Finance via `yfinance`
-- **Frequency:** Daily
-- **Historical window:** Approximately 10 years, depending on data availability when the notebook is run.
+Can machine learning models provide useful early-warning signals for elevated volatility in the Indian equity market, and how does their performance change across different market periods?
 
-## Target Definition
-Future five-session volatility is calculated from the squared daily log returns over the next five trading sessions. A high-volatility event is defined as future volatility exceeding the 80th percentile of the training-period target distribution.
+## Data and Features
 
-## Features
-The selected eight features are:
-- One-day log return
-- Five-day return
-- Twenty-day return
-- Five-day rolling volatility
-- Twenty-day rolling volatility
-- Intraday high-low range
-- Open-to-close return
-- Volume change
+- **Market:** NIFTY 50
+- **Data source:** Yahoo Finance (`^NSEI`)
+- **Period:** October 2016–October 2026, subject to data availability
+- **Prediction horizon:** Five trading sessions
+- **Target:** An indicator for elevated future five-session realized volatility, defined using a threshold learned from the training period.
+
+The features include recent returns, rolling volatility, intraday price ranges, open-to-close returns, volume changes, and additional volatility indicators.
 
 ## Models
-- Logistic Regression
-- Random Forest
-- XGBoost
 
-## Evaluation
-The notebook uses chronological splits and expanding-window walk-forward evaluation. ROC-AUC and Average Precision are reported by evaluation quarter.
+Three classification models are compared:
 
-### Walk-Forward Evaluation Results
+1. Logistic Regression
+2. Random Forest
+3. XGBoost
 
-#### ROC-AUC by Quarter
+The evaluation uses chronological data splits and expanding-window walk-forward testing to better reflect the time-dependent nature of financial data.
 
-![Walk-forward ROC-AUC by quarter](walk_forward_auc.png)
-
-#### Average Precision by Quarter
-
-![Walk-forward Average Precision by quarter](walk_forward_average_precision.png)
-
-
-### Walk-Forward Summary
+## Walk-Forward Results
 
 | Model | Mean ROC-AUC | Mean Average Precision |
 |---|---:|---:|
-| Logistic Regression | 0.614 | 0.484 |
-| Random Forest | 0.732 | 0.505 |
-| XGBoost | 0.773 | 0.542 |
+| Logistic Regression | 0.6117 | 0.3440 |
+| Random Forest | 0.7379 | 0.3721 |
+| XGBoost | 0.7298 | 0.3648 |
 
-These averages cover only five evaluated quarters. The quarters differ in sample size and event frequency, so the averages should be interpreted cautiously. Some quarters contain very few positive observations.
+Random Forest achieved the highest mean ROC-AUC and mean Average Precision across the seven evaluated quarters. XGBoost produced comparable results, while Logistic Regression had lower average performance.
+
+These averages should be interpreted cautiously because the evaluated quarters may differ in market conditions, event prevalence, and sample size.
+
+## Results and Visualizations
+
+- [Walk-forward results (CSV)](walk_forward_results.csv)
+- [Model performance summary (CSV)](model_performance_summary.csv)
+- [Walk-forward ROC-AUC plot](walk_forward_auc.png)
+- [Walk-forward Average Precision plot](walk_forward_average_precision.png)
 
 ## Repository Contents
-- `Indian_Equity_Volatility_Model.ipynb` — analysis, feature engineering, modelling, and evaluation.
-- `results/walk_forward_results.csv` — quarterly model metrics.
-- `results/model_performance_summary.csv` — descriptive summary across evaluated quarters.
-- `results/walk_forward_auc.png` — quarterly ROC-AUC chart.
-- `results/walk_forward_average_precision.png` — quarterly Average Precision chart.
+
+- `Indian_Equity_Volatility_Model.ipynb` — analysis, feature engineering, model training, and evaluation.
+- `walk_forward_results.csv` — quarterly model evaluation results.
+- `model_performance_summary.csv` — summary metrics across evaluated quarters.
+- `walk_forward_auc.png` — ROC-AUC comparison over time.
+- `walk_forward_average_precision.png` — Average Precision comparison over time.
 
 ## Limitations
-- The study focuses on a single market index.
-- Market regimes and the frequency of high-volatility events change over time.
-- Metrics based on small quarterly samples are uncertain.
-- Test-period results were inspected during development and are not an untouched final holdout.
-- Predictive ranking does not establish profitability or demonstrate readiness for live trading.
+
+- Financial markets experience regime changes, so model performance may vary over time.
+- High-volatility events may be relatively rare, making accuracy alone an inadequate evaluation metric.
+- Average results across quarters can conceal substantial differences in performance.
+- The evaluated period has already been inspected during development and should not be treated as a completely untouched final test set.
+- Predictive performance in historical data does not guarantee future trading performance or profitability.
 
 ## Reproducibility
-Open the notebook in Google Colab and run its cells in order. The notebook installs its Python dependencies and retrieves historical data using `yfinance`. Results may change when the data source is updated.
 
-## Disclaimer
-This project is for educational and research purposes only. It is not financial advice or a trading recommendation.
+The notebook is designed to run in Google Colab. Run the cells from top to bottom to reproduce the analysis and generate the evaluation outputs. Results may vary if the underlying data source changes.
+
+##
